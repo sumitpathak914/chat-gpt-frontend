@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 
+const OPENAI_API_KEY = 'your-api-key'; // Replace with your actual API key
+
 function App() {
   const [username, setUsername] = useState('');
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -13,8 +15,8 @@ function App() {
     }
   };
 
-  const handleUserInput = (inputText) => {
-    const botResponse = generateBotResponse(inputText);
+  const handleUserInput = async (inputText) => {
+    const botResponse = await generateBotResponse(inputText);
 
     setMessages([
       ...messages,
@@ -23,8 +25,32 @@ function App() {
     ]);
   };
 
-  const generateBotResponse = (userInput) => {
-    return `You said: ${userInput}`;
+  const generateBotResponse = async (userInput) => {
+    const apiUrl = 'https://api.openai.com/v1/engines/davinci-codex/completions';
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          prompt: userInput,
+          max_tokens: 150, // Adjust as needed
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      return data.choices[0].text.trim(); // Adjust based on the API response format
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return 'Sorry, an error occurred while fetching the answer.';
+    }
   };
 
   return (
