@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+/* Chatboaticons.css */
+
+/* Define the keyframes for the shake animation */
+/* Chatboaticons.css */
+
+/* Define the keyframes for the shake animation */
+/* Chatboaticons.css */
+
+/* Define the keyframes for the shake animation */
+@keyframes shake {
+  0% { transform: translateY(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateY(-10px); }
+  20%, 40%, 60%, 80% { transform: translateY(10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Apply the shake animation on hover */
+.shake-on-hover:hover {
+  animation: shake 5s ease infinite;
+}
